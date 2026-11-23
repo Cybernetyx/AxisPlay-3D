@@ -26,7 +26,7 @@ project can be written without the Unity editor and built in the cloud.
 
 | Action | Bike / panel | Keyboard (simulator) |
 |---|---|---|
-| Pedal | crank gyro | hold **Space / W / Up** (Shift = sprint) |
+| Pedal | crank gyro | hold **Space / W / Up** (Shift = sprint), **P** = cruise on/off |
 | Lean | frame tilt | **A / D** |
 | Knock | accelerometer spike | **K** |
 | Shake | — | **J** |

@@ -170,7 +170,8 @@ namespace AxisPlay.EditorTools
             Directory.CreateDirectory(Path.GetDirectoryName(output) ?? "build");
 
             var options = BuildOptions.None;
-            if (HasArg("-devBuild")) options |= BuildOptions.Development | BuildOptions.ConnectWithProfiler;
+            // Development only (no ConnectWithProfiler: that stalls startup ~15 s waiting for an editor).
+            if (HasArg("-devBuild")) options |= BuildOptions.Development;
 
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {

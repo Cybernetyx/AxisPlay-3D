@@ -119,11 +119,28 @@ namespace AxisPlay
             return img;
         }
 
+        /// <summary>Thin glass edge: four 2px lines just inside the rect.</summary>
         public static void Outline(GameObject go)
         {
-            var o = go.AddComponent<UnityEngine.UI.Outline>();
-            o.effectColor = GlassEdge;
-            o.effectDistance = new Vector2(2, -2);
+            const float w = 2f;
+            void Edge(Vector2 min, Vector2 max, Vector2 size)
+            {
+                var e = new GameObject("Edge", typeof(RectTransform), typeof(Image));
+                var rt = (RectTransform)e.transform;
+                rt.SetParent(go.transform, false);
+                rt.anchorMin = min;
+                rt.anchorMax = max;
+                rt.pivot = new Vector2(0.5f, 0.5f);
+                rt.sizeDelta = size;
+                rt.anchoredPosition = Vector2.zero;
+                var img = e.GetComponent<Image>();
+                img.color = GlassEdge;
+                img.raycastTarget = false;
+            }
+            Edge(new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, w)); // top
+            Edge(new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, w)); // bottom
+            Edge(new Vector2(0, 0), new Vector2(0, 1), new Vector2(w, 0)); // left
+            Edge(new Vector2(1, 0), new Vector2(1, 1), new Vector2(w, 0)); // right
         }
 
         public static Text Label(Transform parent, string text, int size, Vector2 anchor, Vector2 offset, Vector2 box,

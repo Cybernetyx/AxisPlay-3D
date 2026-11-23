@@ -27,7 +27,7 @@ namespace AxisPlay
             Cam.transform.SetPositionAndRotation(new Vector3(0, 2.2f, -8f), Quaternion.Euler(8f, 0, 0));
 
             Geo.Prim(PrimitiveType.Cylinder, transform, new Vector3(0, 0.15f, 0), new Vector3(3f, 0.15f, 3f), Mats.Lit(new Color(0.08f, 0.08f, 0.12f), 0.7f));
-            Geo.Prim(PrimitiveType.Cylinder, transform, new Vector3(0, 0.31f, 0), new Vector3(3.1f, 0.01f, 3.1f), Mats.Glow(c, 1.5f));
+            Geo.Prim(PrimitiveType.Cylinder, transform, new Vector3(0, 0.31f, 0), new Vector3(3.1f, 0.01f, 3.1f), Mats.Glow(c * 0.5f, 0.8f));
 
             core = new GameObject("Core").transform;
             core.SetParent(transform, false);

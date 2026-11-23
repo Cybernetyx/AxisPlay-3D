@@ -59,10 +59,12 @@ namespace AxisPlay
         public bool Available => true;
 
         float rpm;
+        bool cruise;
 
         public RawSample Sample(float dt)
         {
-            bool pedal = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+            if (Input.GetKeyDown(KeyCode.P)) cruise = !cruise; // P = cruise pedalling (handy over adb)
+            bool pedal = cruise || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
             float target = pedal ? (Input.GetKey(KeyCode.LeftShift) ? 115f : 85f) : 0f;
             rpm = Mathf.MoveTowards(rpm, target, (pedal ? 120f : 90f) * dt);
 
