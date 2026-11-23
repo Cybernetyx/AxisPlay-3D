@@ -1,0 +1,61 @@
+name: Build Android APK
+
+# Runs on push to main and on demand (Actions tab > Build Android APK > Run workflow).
+# Uses GameCI with a free Unity Personal license. See README "Cloud build setup".
+on:
+  push:
+    branches: [main]
+    paths: ["Assets/**", "Packages/**", "ProjectSettings/**", ".github/workflows/**"]
+  workflow_dispatch:
+    inputs:
+      development:
+        description: "Development build (profiler + logs, for the Week 0 hardware check)"
+        type: boolean
+        default: true
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      # GitHub runners are tight on disk for Unity; reclaim ~20 GB first.
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # Cache Unity's Library folder: cuts later builds from ~25 min to ~10.
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('Packages/**', 'ProjectSettings/**') }}-${{ hashFiles('Assets/**') }}
+          restore-keys: |
+            Library-Android-${{ hashFiles('Packages/**', 'ProjectSettings/**') }}-
+            Library-Android-
+
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: Android
+          buildName: AxisPlay
+          buildMethod: AxisPlay.EditorTools.BuildScript.BuildAndroid
+          androidExportType: androidPackage
+          versioning: None
+          customParameters: ${{ (github.event_name == 'workflow_dispatch' && inputs.development) && '-devBuild' || '' }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AxisPlay-apk-${{ github.run_number }}
+          path: build/Android/*.apk
+          retention-days: 5   # keeps you inside the free 500 MB artifact storage
