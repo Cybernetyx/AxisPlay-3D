@@ -28,9 +28,10 @@ namespace AxisPlay
         public Hud Hud { get; private set; }
         public Camera Cam { get; private set; }
         public Light Sun { get; private set; }
+        public AudioSource Audio { get; private set; }
 
-        public float IdleSeconds = 45f;
         public bool InLauncher => current is Launcher;
+        public Experience Current => current;
 
         Experience current;
         GameObject world;
@@ -45,6 +46,9 @@ namespace AxisPlay
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             Motion = gameObject.AddComponent<MotionEngine>();
+            Audio = gameObject.AddComponent<AudioSource>();
+            Audio.playOnAwake = false;
+            Audio.spatialBlend = 0f;
 
             var camGo = new GameObject("Camera") { tag = "MainCamera" };
             camGo.transform.SetParent(transform, false);
@@ -66,6 +70,8 @@ namespace AxisPlay
 
             Look.CreateVolume(transform);
             Hud = Hud.Create(transform);
+            gameObject.AddComponent<StaffMenu>();
+            if (Display.displays.Length > 1) gameObject.AddComponent<SecondScreen>();
             ShowLauncher();
         }
 
@@ -79,6 +85,8 @@ namespace AxisPlay
         public void Launch(int index)
         {
             lastSelected = index;
+            ScoreService.NextRider();
+            ScoreService.LogSession(Catalog.All[index].Id);
             Switch(Catalog.All[index].Create);
         }
 
@@ -128,23 +136,25 @@ namespace AxisPlay
             var m = Motion.State;
             float dt = Time.deltaTime;
             var exp = current;
+            if (StaffMenu.Open) return; // staff menu pauses the experience
             if (exp != null) exp.Tick(m, dt);
             if (exp != current) return; // the experience switched scenes itself
 
             if (InLauncher) return;
 
             if (Input.GetKeyDown(KeyCode.Escape)) { ShowLauncher(); return; } // Android back button
-            if (Motion.SecondsSinceActive > IdleSeconds) { ShowLauncher(); return; }
+            if (Motion.SecondsSinceActive > current.IdleTimeout) { ShowLauncher(); return; }
 
             if (current.Finished)
             {
                 if (finishedFor < 0f)
                 {
                     finishedFor = 0f;
-                    Hud.ShowResult(current.Title, current.ResultText);
+                    Hud.ShowResult(current.Title, current.ResultText, current.ResultDetail);
+                    Audio.PlayOneShot(Kit.Blip);
                 }
                 finishedFor += dt;
-                if (finishedFor > 10f || (finishedFor > 2f && m.Knock)) ShowLauncher();
+                if (finishedFor > 12f || (finishedFor > 2f && m.Knock)) ShowLauncher();
             }
         }
     }

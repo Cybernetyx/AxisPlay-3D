@@ -136,7 +136,7 @@ namespace AxisPlay
             var info = Catalog.All[sel];
             title.text = info.Title;
             tagline.text = info.Tagline;
-            status.text = info.Built ? $"{sel + 1:00} / {Count}   ·   PLAYABLE" : $"{sel + 1:00} / {Count}   ·   PREVIEW — full build in phase {info.Phase}";
+            status.text = $"{sel + 1:00} / {Count}   ·   PLAYED {ScoreService.Plays(info.Id)} TIMES";
             var c = info.Color;
             startBg.color = new Color(c.r, c.g, c.b, 0.85f);
         }

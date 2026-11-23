@@ -77,13 +77,17 @@ namespace AxisPlay
                 $"GPU: {SystemInfo.graphicsDeviceName}";
         }
 
-        public void ShowResult(string title, string result)
+        /// <summary>Result card along the bottom, so the finished 3D scene stays visible.</summary>
+        public void ShowResult(string title, string result, string detail = "")
         {
-            var p = Panel(Layer, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(900, 420), new Color(0.05f, 0.05f, 0.1f, 0.85f));
+            var p = Panel(Layer, new Vector2(0.5f, 0), new Vector2(0, 30), new Vector2(1240, 300), new Color(0.04f, 0.04f, 0.09f, 0.88f));
             Outline(p.gameObject);
-            Label(p.transform, title.ToUpperInvariant(), 34, new Vector2(0.5f, 1), new Vector2(0, -50), new Vector2(860, 60), TextAnchor.MiddleCenter, new Color(1, 1, 1, 0.7f));
-            Label(p.transform, result, 64, new Vector2(0.5f, 0.5f), new Vector2(0, 10), new Vector2(860, 200), TextAnchor.MiddleCenter, Color.white, FontStyle.Bold);
-            Label(p.transform, "Knock or tap MENU to play again", 26, new Vector2(0.5f, 0), new Vector2(0, 50), new Vector2(860, 50), TextAnchor.MiddleCenter, new Color(1, 1, 1, 0.6f));
+            Label(p.transform, title.ToUpperInvariant(), 28, new Vector2(0.5f, 1), new Vector2(0, -22), new Vector2(1180, 40), TextAnchor.MiddleCenter, new Color(1, 1, 1, 0.6f));
+            Label(p.transform, result, 64, new Vector2(0.5f, 0.5f), new Vector2(0, 14), new Vector2(1180, 110), TextAnchor.MiddleCenter, Color.white, FontStyle.Bold);
+            if (!string.IsNullOrEmpty(detail))
+                Label(p.transform, detail, 30, new Vector2(0.5f, 0), new Vector2(0, 66), new Vector2(1180, 44), TextAnchor.MiddleCenter, new Color(1f, 0.85f, 0.45f));
+            Label(p.transform, $"{ScoreService.CurrentRider}  ·  knock or tap MENU to play again", 22, new Vector2(0.5f, 0), new Vector2(0, 20), new Vector2(1180, 34),
+                TextAnchor.MiddleCenter, new Color(1, 1, 1, 0.5f));
         }
 
         // ---------- builders ----------

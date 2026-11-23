@@ -163,22 +163,4 @@ namespace AxisPlay
             return Hud.Label(rt, text, fontSize, new Vector2(0.5f, 0.5f), Vector2.zero, box, align, color, style);
         }
     }
-
-    /// <summary>Offline-first local scores. A sync service can push these later.</summary>
-    public static class ScoreService
-    {
-        /// <summary>Lower is better (times). Returns true if this is a new best.</summary>
-        public static bool SubmitTime(string id, float seconds, out float best)
-        {
-            string key = "best." + id;
-            best = PlayerPrefs.GetFloat(key, float.MaxValue);
-            if (seconds >= best) return false;
-            best = seconds;
-            PlayerPrefs.SetFloat(key, seconds);
-            PlayerPrefs.Save();
-            return true;
-        }
-
-        public static float BestTime(string id) => PlayerPrefs.GetFloat("best." + id, float.MaxValue);
-    }
 }
