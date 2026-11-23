@@ -27,7 +27,7 @@ namespace AxisPlay
         };
 
         // Rough continents as (lat, lon, radius°) blobs; noise breaks up the edges.
-        static readonly Vector3[] Land =
+        static readonly Vector3[] LandBlobs =
         {
             new Vector3(48, -100, 22), new Vector3(60, -120, 16), new Vector3(30, -95, 12), new Vector3(18, -100, 8), new Vector3(65, -150, 9),
             new Vector3(72, -40, 9), new Vector3(-12, -58, 16), new Vector3(-32, -64, 10), new Vector3(2, -68, 10),
@@ -56,7 +56,7 @@ namespace AxisPlay
         static bool IsLand(Vector3 d)
         {
             float n = Mathf.PerlinNoise(d.x * 3f + 5f, d.y * 3f + d.z * 2f + 9f) * 9f - 4.5f;
-            foreach (var b in Land)
+            foreach (var b in LandBlobs)
             {
                 float ang = Vector3.Angle(d, Dir(b.x, b.y));
                 if (ang < b.z + n) return true;

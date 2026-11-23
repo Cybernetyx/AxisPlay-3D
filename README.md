@@ -6,21 +6,46 @@ experiences, built from the **Motion Booth 3D** design canvas.
 Everything is created **in code** at startup: no hand-made scenes or prefabs. So the
 project can be written without the Unity editor and built in the cloud.
 
-## What's in this starter
+## What's in it
 
-| Part | File | Status |
-|---|---|---|
-| Motion engine: cadence, watts, lean, crank angle, stillness, knock | `Assets/Scripts/Core/MotionEngine.cs` | ✅ |
-| Gyro/accelerometer source + desk simulator | `Assets/Scripts/Core/MotionSources.cs` | ✅ |
-| App shell: camera, sun, post FX, idle reset, back button | `Assets/Scripts/Core/App.cs` | ✅ |
-| Experience interface + catalogue of all 16 | `Assets/Scripts/Core/Experience.cs` | ✅ |
-| HUD (glass panels, bars, buttons) + sensor debug overlay | `Assets/Scripts/Core/Hud.cs` | ✅ |
-| Materials (matte, glow, glass, additive), post FX, local scores | `Assets/Scripts/Core/Look.cs` | ✅ |
-| 3D launcher carousel | `Assets/Scripts/Launcher/Launcher.cs` | ✅ |
-| **Climb the Summit** (hero) | `Assets/Scripts/Experiences/Summit/SummitClimb.cs` | ✅ playable |
-| Other 15 experiences | `Placeholder.cs` (motion test scene) | ⏳ by phase |
-| URP + materials + scene + Android settings, APK build | `Assets/Scripts/Editor/BuildScript.cs` | ✅ |
-| Free cloud build (GameCI on GitHub Actions) | `.github/workflows/android.yml` | ✅ |
+### The 16 experiences (all playable, all 3D)
+
+| # | Experience | How it plays | Score |
+|---|---|---|---|
+| 1 | **Climb the Summit** | Watts move you up a low-poly mountain trail past camps | time to the top |
+| 2 | **Spin the Globe** | Pedal to spin the Earth, stop to land on a city (beacon lights up) | city landed |
+| 3 | **Power the City** | Energy lights 6 districts of a night city in 45 s | time to light all |
+| 4 | **Head-to-Head Race** | 400 m chase-cam race vs a hologram rival, sunset skyline | finish time, win/lose |
+| 5 | **Ghost Rider** | Race the replay of the best ride; beat it to become the ghost | finish time |
+| 6 | **Scenic Ride** | Low-poly valley; lean at the fork for Lakeside or Forest Pass | route time |
+| 7 | **Stillness Challenge** | Stay still to melt an ice cube and free a gold orb | time to free it |
+| 8 | **Tempo DJ** | Cadence = BPM of a synthesised beat; hold the target zone | % in the groove |
+| 9 | **Pedal-to-Develop Art** | Lean to pick a theme, pedal to develop a generated Polaroid | — |
+| 10 | **Ride Fingerprint** | 20 s ride builds a twisting sculpture of rings | rhythm / power / balance |
+| 11 | **Time Machine** | Pedal from 1900 to 2050 as the city builds itself | time to 2050 |
+| 12 | **Live Physics Dashboard** | Wireframe bike twin + live graphs (free explore) | — |
+| 13 | **Summit Leaderboard** | 3D podium, confetti, top 10 and other records | — |
+| 14 | **Knock to Interact** | Knock (or tap) as often as you can in 15 s; shockwaves + combos | knocks |
+| 15 | **Motion-Driven Visuals** | Particle-ring tunnel; strokes pulse it, lean bends it | distance |
+| 16 | **Booth Heartbeat** | Sessions per hour today as 3D bars, ECG pulse, energy orb | — |
+
+### Code map
+
+| Part | File |
+|---|---|
+| Motion engine: cadence, watts, lean, crank angle, stillness, knock | `Assets/Scripts/Core/MotionEngine.cs` |
+| Gyro/accelerometer source + desk simulator | `Assets/Scripts/Core/MotionSources.cs` |
+| App shell: camera, sun, post FX, idle reset, results, audio | `Assets/Scripts/Core/App.cs` |
+| Experience base + HUD kit (title, stat cards, countdown) + catalogue | `Assets/Scripts/Core/Experience.cs` |
+| 3D builders: rider, track, city, rings, ribbons, particles, synth audio | `Assets/Scripts/Core/Kit.cs` |
+| HUD primitives + sensor debug overlay | `Assets/Scripts/Core/Hud.cs` |
+| Materials (matte, glow, glass, additive) + post FX | `Assets/Scripts/Core/Look.cs` |
+| Local scores, rider numbers, booth activity | `Assets/Scripts/Core/ScoreService.cs` |
+| Staff menu + second-TV leaderboard | `Assets/Scripts/Core/StaffMenu.cs` |
+| 3D launcher carousel | `Assets/Scripts/Launcher/Launcher.cs` |
+| One folder per experience | `Assets/Scripts/Experiences/*` |
+| URP + materials + scene + Android settings, APK build | `Assets/Scripts/Editor/BuildScript.cs` |
+| Free cloud build (GameCI on GitHub Actions) | `.github/workflows/android.yml` |
 
 ## Controls
 
@@ -35,7 +60,10 @@ project can be written without the Unity editor and built in the cloud.
 | Back to menu | MENU button, Android back | **Esc** |
 | Sensor debug overlay | 3-finger tap | **F1** |
 
-The app returns to the launcher after 45 s with no motion.
+| Staff menu (calibration, reset scores) | hold top-right corner 3 s | **F2** |
+
+The app returns to the launcher after 45 s with no motion (120 s in Stillness).
+If a second display is connected, it shows the live leaderboard and who is riding.
 
 ## Cloud build setup (one time, free)
 
