@@ -13,7 +13,8 @@ namespace AxisPlay
     {
         public override string Title => "Booth Heartbeat";
 
-        const int FirstHour = 8, Hours = 12;
+        const int Hours = 12;
+        int FirstHour;
         const int PulsePoints = 160;
         static readonly Color Rose = new Color(1f, 0.32f, 0.45f);
         static readonly Color GoldC = new Color(1f, 0.8f, 0.3f);
@@ -37,12 +38,13 @@ namespace AxisPlay
             Geo.Prim(PrimitiveType.Plane, transform, Vector3.zero, Vector3.one * 5f, Mats.Lit(new Color(0.05f, 0.03f, 0.05f), 0.85f));
             Geo.Prim(PrimitiveType.Cube, transform, new Vector3(0, 0.05f, 0), new Vector3(13.5f, 0.1f, 2.4f), Mats.Lit(new Color(0.1f, 0.07f, 0.1f), 0.5f));
 
+            FirstHour = Mathf.Clamp(System.DateTime.Now.Hour - (Hours - 1), 0, 24 - Hours);
             int peakHour = -1, peak = 0, total = 0;
+            for (int h = 0; h < 24; h++) total += ScoreService.SessionsInHour(h);
             var counts = new int[Hours];
             for (int i = 0; i < Hours; i++)
             {
                 counts[i] = ScoreService.SessionsInHour(FirstHour + i);
-                total += counts[i];
                 if (counts[i] > peak) { peak = counts[i]; peakHour = i; }
             }
             int maxCount = Mathf.Max(peak, 5);

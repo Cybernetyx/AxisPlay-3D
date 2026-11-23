@@ -22,7 +22,7 @@ namespace AxisPlay
 
         static readonly Color Sunset = new Color(1f, 0.55f, 0.25f);
         static readonly Color Trail = new Color(1f, 0.62f, 0.3f);
-        static readonly Color Sky = new Color(0.2f, 0.12f, 0.27f);
+        static readonly Color Sky = new Color(0.36f, 0.22f, 0.4f);
 
         Vector3[] path;
         float climbed, timer;
@@ -45,17 +45,17 @@ namespace AxisPlay
 
         public override void Begin()
         {
-            App.Env(Sky, new Color(0.38f, 0.3f, 0.45f), 35f, 170f);
+            App.Env(Sky, new Color(0.55f, 0.45f, 0.6f), 45f, 200f);
             App.Sun.color = Sunset;
-            App.Sun.intensity = 1.5f;
-            App.Sun.transform.rotation = Quaternion.Euler(16f, -50f, 0f);
+            App.Sun.intensity = 1.8f;
+            App.Sun.transform.rotation = Quaternion.Euler(26f, -35f, 0f);
             Cam.fieldOfView = 50f;
 
             var mountain = BuildMountainMesh();
             var mats = new[]
             {
-                Mats.Lit(new Color(0.24f, 0.2f, 0.32f), 0.05f),  // lower slopes (dusk)
-                Mats.Lit(new Color(0.42f, 0.33f, 0.38f), 0.1f),  // rock
+                Mats.Lit(new Color(0.36f, 0.42f, 0.38f), 0.05f),  // lower slopes
+                Mats.Lit(new Color(0.55f, 0.45f, 0.48f), 0.1f),  // rock
                 Mats.Lit(new Color(0.95f, 0.92f, 1f), 0.45f),    // snow
             };
             AddMesh("Mountain", mountain, mats, Vector3.zero, Vector3.one, 0f);
@@ -254,7 +254,7 @@ namespace AxisPlay
             if (outward.sqrMagnitude < 4f) outward = new Vector3(PathAt(0.97f).x, 0, PathAt(0.97f).z);
             outward = Quaternion.Euler(0, -28f, 0) * outward.normalized;
             look = p + Vector3.up * 1.5f;
-            return p + outward * Mathf.Lerp(16f, 22f, t) + Vector3.up * Mathf.Lerp(6f, 10f, t);
+            return p + outward * Mathf.Lerp(26f, 30f, t) + Vector3.up * Mathf.Lerp(12f, 14f, t);
         }
 
         public override void Tick(in MotionState m, float dt)

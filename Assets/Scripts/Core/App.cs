@@ -94,6 +94,8 @@ namespace AxisPlay
         {
             if (current != null) current.End();
             if (world != null) Destroy(world);
+            for (int i = Cam.transform.childCount - 1; i >= 0; i--) Destroy(Cam.transform.GetChild(i).gameObject);
+            Cam.transform.localRotation = Quaternion.identity;
             Hud.Clear();
             ResetEnvironment();
 

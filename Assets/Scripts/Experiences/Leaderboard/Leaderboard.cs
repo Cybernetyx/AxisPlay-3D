@@ -118,8 +118,8 @@ namespace AxisPlay
         {
             orbit += dt * 8f;
             float a = (Mathf.Sin(orbit * Mathf.Deg2Rad) * 20f) * Mathf.Deg2Rad;
-            Cam.transform.position = new Vector3(Mathf.Sin(a) * 9f - 1.2f, 3.6f, -Mathf.Cos(a) * 9f);
-            Cam.transform.LookAt(new Vector3(-1.2f, 1.6f, 0));
+            Cam.transform.position = new Vector3(Mathf.Sin(a) * 9.5f + 2.6f, 3.6f, -Mathf.Cos(a) * 9.5f);
+            Cam.transform.LookAt(new Vector3(2.6f, 1.6f, 0));
 
             for (int i = 0; i < orbs.Count; i++)
             {

@@ -52,7 +52,10 @@ namespace AxisPlay
             sl.SetParent(Cam.transform, false);
             sl.localPosition = new Vector3(0, 0, 24f);
             sl.localRotation = Quaternion.Euler(0, 180f, 0);
-            speedLines = Kit.Particles(sl, new Color(0.7f, 0.9f, 1f, 0.6f), 0f, 0.05f, 0.8f, 40f, ParticleSystemShapeType.Box, new Vector3(16, 8, 1), world: false);
+            speedLines = Kit.Particles(sl, new Color(0.7f, 0.9f, 1f, 0.6f), 0f, 0.05f, 0.5f, 40f, ParticleSystemShapeType.Circle, Vector3.one, world: false);
+            var sls = speedLines.shape;
+            sls.radius = 7f;
+            sls.radiusThickness = 0.15f; // emit from a ring so streaks pass around the view, never through it
             var r = speedLines.GetComponent<ParticleSystemRenderer>();
             r.renderMode = ParticleSystemRenderMode.Stretch;
             r.lengthScale = 6f;

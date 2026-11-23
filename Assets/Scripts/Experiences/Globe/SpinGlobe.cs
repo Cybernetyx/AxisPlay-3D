@@ -132,7 +132,7 @@ namespace AxisPlay
 
             TitleBlock(Title, "Pedal to spin the Earth. Stop pedalling to land on a city.");
             speedText = StatCard(new Vector2(0, 0.5f), new Vector2(40, 60), "Spin speed", "rpm", 280, new Color(0.3f, 0.85f, 1f));
-            statusText = Hud.Label(Hud.Layer, "", 26, new Vector2(0, 0.5f), new Vector2(44, -40), new Vector2(420, 120),
+            statusText = Hud.Label(Hud.Layer, "", 26, new Vector2(0, 0.5f), new Vector2(44, -60), new Vector2(420, 60),
                 TextAnchor.UpperLeft, new Color(1, 1, 1, 0.7f));
             cityText = Hud.Label(Hud.Layer, "", 64, new Vector2(0.5f, 0), new Vector2(0, 120), new Vector2(1400, 160),
                 TextAnchor.MiddleCenter, Color.white, FontStyle.Bold);

@@ -47,11 +47,14 @@ namespace AxisPlay
             var rnd = new System.Random(8);
             var craneMat = Mats.Glow(new Color(1f, 0.75f, 0.2f), 1.3f);
             var outlineMat = Mats.Additive(new Color(0.4f, 0.85f, 1f), 0.9f);
+            // order: low buildings near the centre first, towers last; ~5 already stand in 1900
+            var order = new List<Kit.Building>(city);
+            var key = new Dictionary<Kit.Building, float>();
+            foreach (var b in city) key[b] = new Vector2(b.Pos.x, b.Pos.z).magnitude / 14f + b.Height / 14f + (float)rnd.NextDouble() * 0.35f;
+            order.Sort((x, y) => key[x].CompareTo(key[y]));
+            for (int i = 0; i < order.Count; i++) order[i].Year = Mathf.RoundToInt(1880f + i / (float)(order.Count - 1) * 165f);
             foreach (var b in city)
             {
-                float centre = new Vector2(b.Pos.x, b.Pos.z).magnitude / 14f; // 0 centre .. 1 edge
-                b.Year = Mathf.RoundToInt(Mathf.Lerp(1905f, 2045f, Mathf.Clamp01(centre * 0.75f + (float)rnd.NextDouble() * 0.35f)));
-                if (b.Height > 8f) b.Year = Mathf.Max(b.Year, 1960 + rnd.Next(0, 70)); // towers are modern
                 var s = new Site { B = b };
 
                 s.Crane = new GameObject("Crane").gameObject;
