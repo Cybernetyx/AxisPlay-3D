@@ -45,7 +45,7 @@ The app returns to the launcher after 45 s with no motion.
    ```
 2. **Get a Unity Personal license file.** Install only Unity Hub (no editor needed, ~1 GB),
    sign in, then *Preferences → Licenses → Add → Get a free personal license*.
-   The file is at `~/Library/Application Support/Unity/Unity_lic.ulf`.
+   The file is at `/Library/Application Support/Unity/Unity_lic.ulf` (system folder, not `~/Library`).
 3. **Add three repository secrets** (*Settings → Secrets and variables → Actions*):
    `UNITY_LICENSE` (full contents of the .ulf file), `UNITY_EMAIL`, `UNITY_PASSWORD`.
 4. **Run the build:** *Actions → Build Android APK → Run workflow*. First run ≈ 25–35 min,
